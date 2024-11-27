@@ -1,0 +1,2 @@
+[console_scripts]
+mrconvert = mrconvert:main
