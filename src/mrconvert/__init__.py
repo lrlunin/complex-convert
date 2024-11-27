@@ -31,7 +31,7 @@ def main():
         case _:
             raise TypeError(f"There is no function: {args.proc_func}")
     smooth_width = args.smooth_width
-    first_n = args.first_n
+    first_n = None or int(args.first_n)
 
     out_dir.mkdir(parents=True, exist_ok=True)
     log_path = pathlib.Path(args.out_dir) / "csm_conversion.log"
@@ -44,7 +44,8 @@ def main():
     logger.info(f"glob patterns: {glob_patterns}")
     logger.info(f"using CUDA: {use_cuda}")
     files = list(reduce(lambda a,b: chain(a, b), map(lambda pattern: in_dir.glob(pattern), glob_patterns)))
-    for i, file in enumerate(files[:first_n]):
+    files = files[:first_n]
+    for i, file in enumerate(files):
         convert_data(file, 
                      i,
                      len(files),
