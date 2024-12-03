@@ -31,7 +31,7 @@ def main():
         case _:
             raise TypeError(f"There is no function: {args.proc_func}")
     smooth_width = args.smooth_width
-    first_n = None or int(args.first_n)
+    first_n = None if args.first_n is None else int(args.first_n)
 
     out_dir.mkdir(parents=True, exist_ok=True)
     log_path = pathlib.Path(args.out_dir) / "csm_conversion.log"
@@ -53,5 +53,3 @@ def main():
                      smooth_width,
                      proc_func,
                      use_cuda)
-
-    

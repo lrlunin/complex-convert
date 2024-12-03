@@ -42,10 +42,20 @@ def convert_data(in_filepath: pathlib.Path,
         image_space = torch.fft.ifftshift(
             torch.fft.ifftn(
             torch.fft.fftshift(k_space, dim=(-2, -1)), dim=(-2, -1)), dim=(-2, -1))
-        # evaluate for each slice in slices
-        sl_list = [proc_func(sl, smooth_width) for sl in torch.unbind(image_space, 0)]
-        # sensitivity maps for each slices (slices, coils, 1, height, width)
-        sens_maps = torch.stack(sl_list, dim=0)
+        # evaluate for each slice in slices separtely
+        stack = False
+        if stack:
+            # compare if load as z stacks
+            # permute from (slices, coils, 1, height, width) to (1, coils, slices, height, width)
+            # and squeeze() -> (coils, slices, height, width)
+            sl = proc_func(image_space.permute(2, 1, 0, 3, 4).squeeze(), smooth_width)
+            # convert from (coils, slices, height, width) to (slices, coils, 1, height, width)
+            sens_maps = sl.permute(1, 0, 2, 3).unsqueeze(2)
+        else:
+            sl_list = [proc_func(sl, smooth_width) for sl in torch.unbind(image_space, 0)]
+            # sensitivity maps for each slices (slices, coils, 1, height, width)
+            sens_maps = torch.stack(sl_list, dim=0)
+
         # see mrpro.operators.SensitivityOp
         # applying the sensitivity maps to the image_space images
         # sum over coils and "1" dimension to obtain the normalized images

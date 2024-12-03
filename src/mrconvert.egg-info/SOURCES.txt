@@ -1,9 +1,0 @@
-pyproject.toml
-src/mrconvert/__init__.py
-src/mrconvert/convert_data.py
-src/mrconvert.egg-info/PKG-INFO
-src/mrconvert.egg-info/SOURCES.txt
-src/mrconvert.egg-info/dependency_links.txt
-src/mrconvert.egg-info/entry_points.txt
-src/mrconvert.egg-info/requires.txt
-src/mrconvert.egg-info/top_level.txt

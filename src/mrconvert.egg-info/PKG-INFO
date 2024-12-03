@@ -1,7 +1,0 @@
-Metadata-Version: 2.1
-Name: mrconvert
-Version: 0.0.1
-Summary: convert multicoil data
-Requires-Dist: mrpro
-Requires-Dist: torch
-Requires-Dist: h5py
